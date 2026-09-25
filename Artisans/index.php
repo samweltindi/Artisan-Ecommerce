@@ -1,0 +1,312 @@
+<?php 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+session_start();
+include('../database_connection.php');
+include('../functions/sharedfunctions.php');
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artisan Dashboard  </title>
+   
+    <!--font awesome link-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!--Css file-->
+    <link rel="stylesheet" href="../style.css">  
+    <style>
+        body{
+            background: #E8F0F3;
+        }
+    .manage{
+    display: flex;
+    background: white;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    margin-top: 10px;
+}
+.row123{
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+    align-items: center;
+}
+.nav-buttons{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    align-items: center;
+}
+.btn-artisan{
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  border: 1px solid #cdebd0;
+  border-radius: 8px;
+  cursor: pointer;
+  background-color: #e9f9eb;
+  color: #1a8a24;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease;
+}
+.btn-artisan:hover{
+  background-color: #d9f2db;
+  box-shadow: 0 2px 8px rgba(26,138,36,0.15);
+}
+.btn-artisan:active{
+  transform: translateY(1px);
+}
+.btn-artisan.btn-logout{
+  background-color: #fdeaea;
+  border-color: #f3c2c2;
+  color: #a11;
+}
+.btn-artisan.btn-logout:hover{
+  background-color: #fbdada;
+  box-shadow: 0 2px 8px rgba(170,17,17,0.12);
+}
+.my-table{
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1.5rem;
+}
+.my-table th, .my-table td{
+    border: 1px solid #dee2e6;
+    padding: 0.75rem;
+}
+.product_img{
+            width: 100px;
+            object-fit:contain;
+
+}
+        .inputg{
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    width: 50%;
+    margin-bottom: 8px;
+        }
+        .inputgs{
+            display: flex;
+            align-items: center;
+            padding: 0.375rem 0.75rem;
+            font-size: 1rem;
+            font-weight: 400;
+            line-height: 1.5;
+            color: #212529;
+            background: green;
+            border: 1px solid #dee2e6;
+            border-radius: 0.375rem;
+        }
+        .form-control{
+            display: block;
+            width: 100%;
+            padding: 0.375rem 0.75rem;
+            font-size: 1rem;
+            font-weight:400px;
+            line-height: 1.5;
+            color: #212529;
+            background-color: #fff;
+            background-clip: padding-box;
+            border: 1px solid #dee2e6;
+            border-radius: 0.375rem;
+        }
+        .category-btn{
+            background-color: green;
+            border: 0;
+            padding: 0.5rem;
+            margin: 0.5rem;
+            
+        }
+        .div1{
+        max-width: 700px;
+        margin: 30px auto;
+        padding: 20px;
+        margin-top: 0;
+        }
+    .form1{
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        
+    }
+    .form1 input{
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        background-color: #f9f9f9;
+        
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    .form1 input:focus{
+        outline: none;
+        border-color: #85b487;
+        box-shadow: 0 0 0 3px rgba(53,199,201, 0.2);
+    }
+    .form1 input[type="submit"]{
+        background-color: #09c00f;
+        color: white;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        padding: 10px;
+        width: 50%;
+        align-self: center;
+    
+
+    }
+    .form1 input[type="submit"]:hover{
+        background-color: #0cc015;
+    }
+    .cat_name{
+        color: green;
+        margin-bottom: 15px;
+    }
+    .table_style{
+        width: 80%;
+        border-collapse: collapse;
+        margin: 30px; 
+        padding: 15px;
+    }
+    .table_style_th{
+        border: 1px solid #0c1824;
+        padding: 0.75rem;
+    }
+    .table_style_td{
+        border: 1px solid #0c1824; 
+        padding: 0.75rem; 
+        margin-left: 20px;
+    }
+    .form-label{
+        margin-bottom: 0.5rem;
+        font-size: 1rem;
+        font-weight: 400;
+        line-height: 1.5;
+        display: inline-block;
+    }
+    .table1{
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px;
+    }
+    .table1 th, .table1 td{
+        border: 1px solid #2b0808;
+        padding: 8px;
+        text-align: left;
+    }
+    .table1 th{
+        background-color: #f2f2f2;
+    }
+    .table1 a{
+        color: #35c7c9;
+        font-weight: 600;
+        text-decoration: none;
+    }
+    </style>
+</head>
+ <body>
+    <!--navbar-->
+    <div class="container">
+        <!--
+     <header>
+        <div class="logo">
+         <img src="../logo1.svg" alt="logo"/>
+        </div>
+        <form class="Search_form" action="../search_product.php" method="get">
+        <input class="form-btn" type="search" name="search_data" placeholder="Search products..." aria-label="Search"/>
+        <input class="submit-btn" type="submit" name="search_data_products" value="Search">
+        </form>
+
+    </header>
+-->
+                <!--second child-->
+                <div class="manage">
+                    <h3 style="align-items: center; padding:2px;">Manage Details(Artisan Dashboard)</h3>
+               </div>
+               <!--Third child-->
+                <div class="row123">
+                    <div style="margin-bottom: 15px;">
+                        <div class="artisan">
+                        <p style="margin-bottom: 15px;">Artisan name: <?php
+                        if(isset($_SESSION['username'])){
+                            echo $_SESSION['username'];
+                        }
+                        ?> </p>
+                        </div>
+                    <div class="nav-buttons">
+                        <a href="insert_products.php" class="btn-artisan">Insert Products</a>
+                        <a href="index.php?view_products" class="btn-artisan">View products</a>
+                        <a href="index.php?view_categories" class="btn-artisan">View Categories</a>
+                        <a href="index.php?view_orders" class="btn-artisan">View orders</a>
+                        <a href="index.php?view_payment" class="btn-artisan">Payments</a>
+                        <a href="index.php?view_reports" class="btn-artisan">Reports</a>
+                        <a href="../customers/logout.php" class="btn-artisan btn-logout">Logout</a>
+                    </div>
+                    
+                </div>
+    </div>
+    <!--fourth child-->
+    <div class="container my-5">
+        <?php
+        $any_tab_selected = isset($_GET['view_categories']) || isset($_GET['view_products'])
+            || isset($_GET['delete_products']) || isset($_GET['edit_products'])
+            || isset($_GET['view_orders']) || isset($_GET['view_payment'])
+            || isset($_GET['view_reports']);
+
+        if(isset($_GET['view_categories'])){
+            include('view_categories.php');
+        }
+        if(isset($_GET['view_products']))
+            {
+            include('view_products.php');
+            }
+            if(isset($_GET['delete_products']))
+                {
+                    include('delete_products.php');
+                }
+               if(isset($_GET['edit_products']))
+                {
+                    include('edit_products.php');
+                }
+                if(isset($_GET['view_orders']))
+                    {
+                        include('view_orders.php');
+                    }
+                    if(isset($_GET['view_payment'])){
+                        include('view_payment.php');
+                    }
+                    if(isset($_GET['view_reports'])){
+                        include('view_reports.php');
+                    }
+        if(!$any_tab_selected){
+            // No tab selected (e.g. straight after login) - default to View Products.
+            include('view_products.php');
+        }
+        ?>
+    
+<!--last child-->
+<footer>
+  <div class="footerdiv">
+    <div>
+      <h4>Contact us</h4>
+      <p>Email: Samweltindi07@gmail.com<br>Phone: 0742086326</p>
+    </div>
+    <div>
+      <h4>Follow us</h4>
+      <span><i class="fa-brands fa-square-facebook"></i> | <i class="fa-brands fa-x-twitter"></i> | <i class="fa-brands fa-whatsapp"></i> | <i class="fa-brands fa-instagram"></i></span>
+    </div>
+  </div>
+  <p class="footerP">Copyright &copy; 2026 ArtisanOrders, All rights reserved.</p>
+</footer>
+</body>
+</html>
+  
